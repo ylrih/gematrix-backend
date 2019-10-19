@@ -15,7 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
+from rest_framework import routers
+from api.views import get_post_json
 
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+
+
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url(r'admin/', admin.site.urls),
+    url(r'^', include(router.urls)),
+    url(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/upload-data', get_post_json, name='get_post_json'),
 ]
+
+
+
